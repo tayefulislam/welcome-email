@@ -1,7 +1,63 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+
+import auth from '../../firebase.init'
+import { async } from '@firebase/util';
 
 const Register = () => {
+
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
+
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
+    const handeRegister = async (event) => {
+
+        event.preventDefault()
+
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+
+        console.log({ name, email, password })
+        await createUserWithEmailAndPassword(email, password)
+        await updateProfile({ displayName: name });
+
+        if (user) {
+
+            console.log(user)
+
+            const newUser = { name, email }
+            console.log(newUser)
+            const url = `http://localhost:5000/adduser`
+
+            await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newUser)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                })
+
+
+        }
+
+
+
+    }
+
+
+    console.log(error)
 
 
     return (
@@ -11,7 +67,7 @@ const Register = () => {
                     <h2 className="text-center text-2xl font-bold">Sign Up</h2>
 
 
-                    <form >
+                    <form onSubmit={handeRegister} >
 
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
@@ -22,6 +78,8 @@ const Register = () => {
                             <input type="text"
                                 placeholder="Your Name"
                                 className="input input-bordered w-full max-w-xs"
+                                name="name"
+                                required
 
 
                             />
@@ -35,11 +93,11 @@ const Register = () => {
 
                             </label>
 
-                            <input type="text"
+                            <input type="email"
                                 placeholder="Email Address"
                                 className="input input-bordered w-full max-w-xs"
-
-
+                                name='email'
+                                required
 
                             />
 
@@ -55,6 +113,8 @@ const Register = () => {
                             <input type="password"
                                 placeholder="Password"
                                 className="input input-bordered w-full max-w-xs"
+                                name="password"
+                                required
 
 
                             />
