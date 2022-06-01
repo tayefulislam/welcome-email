@@ -1,0 +1,7 @@
+{
+    "templeteId": "welcomeEmail",
+    "senderName": "Tayeful Islam",
+    "subject": "Account register at WelcomeEmail successfully",
+    "text": "Thank you! Your Account has been successfully register. We will contact you very soon!",
+    "message": "<p>Thank you! Your Account has been successfully register. We will contact you very soon!</p>"
+}

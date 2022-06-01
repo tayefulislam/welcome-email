@@ -29,28 +29,27 @@ const Register = () => {
         await createUserWithEmailAndPassword(email, password)
         await updateProfile({ displayName: name });
 
-        if (user) {
 
-            console.log(user)
 
-            const newUser = { name, email }
-            console.log(newUser)
-            const url = `http://localhost:5000/adduser`
+        const newUser = { name, email }
+        console.log(newUser)
+        const url = `https://welcomeapi.priyopathshala.com/adduser`
 
-            await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newUser)
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                })
 
 
-        }
+
 
 
 
